@@ -9,6 +9,7 @@ def main():
         Game.HandleEvents()
         Game.Update()
         Game.Render()
+        Game.FinishCalculations()
     Game.Exit()
     return 0
 sys.exit(main())
