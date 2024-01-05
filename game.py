@@ -7,27 +7,31 @@ import utils
 
 class game:
     def __init__(self):
-        self.running = True
         self.utilities = utils.utils()
-        self.player = player.player([320, 320])
-        self.blackbox = pygame.image.load("data/img/black.png")
         self.map = Map.Map()
+        self.player = player.player([320, 320], self.utilities, self.map)
         self.InputHandler = inputHandler.InputHandler(self.player)
-        self.FPS = 60
+        self.deltaTime = 0
         
 
     def setUp(self):
         self.map.setUpLevel()
     
+    def isRunning(self):
+        return self.utilities.running
 
     def HandleEvents(self):
         for event in pygame.event.get():
+
             if event.type == QUIT:
-                self.running = False
+                self.utilities.running = False
+
             if event.type == KEYDOWN:
-                self.InputHandler.UPKeyboardHandler(event)
-            if event.type == KEYUP:
                 self.InputHandler.DOWNKeyboardHandler(event)
+
+            if event.type == KEYUP:
+                self.InputHandler.UPKeyboardHandler(event)
+
         return 0
 
 
@@ -45,7 +49,8 @@ class game:
         self.player.draw(self.utilities.screen, shift)
 
     def FinishCalculations(self):
-        pygame.time.Clock().tick(self.FPS)
+        pygame.time.Clock().tick(self.utilities.FPS)
+        self.utilities.DeltaTime()
 
     def Exit(self):
         pygame.quit()
