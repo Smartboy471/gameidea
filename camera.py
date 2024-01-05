@@ -12,9 +12,9 @@ class camera:
         self.pos[0] += self.vel[0]
         self.pos[1] += self.vel[1]
 
-        right = self.map.LevelSize[0] - (screenSize[0]/2)
+        right = self.map.LevelPixelSize[0] - (screenSize[0]/2)
         left = self.utilities.screenSize[0]/2
-        bottom = self.map.LevelSize[1] - (screenSize[1]/2)
+        bottom = self.map.LevelPixelSize[1] - (screenSize[1]/2)
         top = self.utilities.screenSize[1]/2
 
         if self.pos[0] <= left:

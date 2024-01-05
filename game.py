@@ -15,7 +15,7 @@ class game:
         
 
     def setUp(self):
-        self.map.setUpLevel()
+        self.map.setUpLevel(self.utilities.screenSize)
     
     def isRunning(self):
         return self.utilities.running

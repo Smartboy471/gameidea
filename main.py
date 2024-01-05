@@ -7,7 +7,7 @@ def main():
     Game.setUp()
     while Game.isRunning() == True:
         Game.HandleEvents()
-        Game.Update()
+        Game.Update()   
         Game.Render()
         Game.FinishCalculations()
     Game.Exit()

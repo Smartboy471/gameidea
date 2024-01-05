@@ -7,7 +7,7 @@ class utils:
         self.get_ticks = pygame.time.get_ticks
         #SCREEN
         self.screenSize = [640, 640]
-        self.screen = pygame.display.set_mode(self.screenSize, 0, 8, 0, 1)
+        self.screen = pygame.display.set_mode(self.screenSize, 0, 0, 0, 1)
         self.FPS = 144
         self.running = True
 
