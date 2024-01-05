@@ -1,4 +1,5 @@
 import JH, Objects
+from pygame import time
 
 class Level:
     def __init__(self, jsonPart, size, partsize, names, partAmounts, objectType) -> None:
@@ -27,9 +28,16 @@ class Level:
             part.draw(screen, shift)
 
     def getCloseLevelparts(self, camera, screenSize):
+        
+        
+        left = int((camera.pos[0] - (screenSize[0] / 2) - self.LevelPartSize[0]) / self.LevelPartSize[0])
+        right = int((screenSize[0] + self.LevelPartSize[0]) / self.LevelPartSize[0] + (camera.pos[0] - (screenSize[0] / 2)) / self.LevelPartSize[0])
+        top = int((camera.pos[1] - (screenSize[1] / 2) - self.LevelPartSize[1]) / self.LevelPartSize[1])
+        bottom = int(((screenSize[1] + self.LevelPartSize[1]) / self.LevelPartSize[1])+(camera.pos[1] - (screenSize[1] / 2)) / self.LevelPartSize[1])
+
         self.CloseLevelparts = []
-        for y in range(int((camera.pos[1] - (screenSize[1] / 2) - self.LevelPartSize[1]) / self.LevelPartSize[1]), int(((screenSize[1] + self.LevelPartSize[1]) / self.LevelPartSize[1])+(camera.pos[1] - (screenSize[1] / 2)) / self.LevelPartSize[1])):
-            for x in range(int((camera.pos[0] - (screenSize[0] / 2) - self.LevelPartSize[0]) / self.LevelPartSize[0]), int((screenSize[0] + self.LevelPartSize[0]) / self.LevelPartSize[0] + (camera.pos[0] - (screenSize[0] / 2)) / self.LevelPartSize[0])):
+        for y in range(top, bottom):
+            for x in range(left, right):
                 try:
                     self.CloseLevelparts.append(self.Level[y][x])
                 except IndexError:

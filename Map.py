@@ -4,7 +4,7 @@ class Map:
     def __init__(self) -> None:
         self.LevelSize = [12288, 12288]
 
-        self.backroundLevel = mapPart.Level("backround", [384, 384], [32, 32], ["data/img/floor.png", "data/img/wall.png"], 2, Objects.BackRoundPiece)
+        self.backroundLevel = mapPart.Level("backround", [384, 384], [32, 32], [None, "data/img/floor.png", "data/img/wall.png"], 3, Objects.BackRoundPiece)
 
         self.doorLevel = mapPart.Level("door", [256, 256], [48, 48], [None, "stanard img"], 2, Objects.door)
 
