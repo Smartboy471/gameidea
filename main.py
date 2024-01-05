@@ -3,6 +3,7 @@ import game
 
 def main():
     Game = game.game()
+    
     Game.setUp()
     while Game.isRunning() == True:
         Game.HandleEvents()
