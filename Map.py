@@ -1,4 +1,4 @@
-import pygame, JH, Objects
+import JH, Objects
 
 class Map:
     def __init__(self) -> None:
@@ -7,6 +7,7 @@ class Map:
         self.Level = []
         self.levelPartSize = [32, 32]
         self.CloseLevelparts = []
+        self.door = Objects.door([32, 32])
     
     def setUpLevel(self):
         for y in range(0, self.levelsize[0]):
@@ -24,6 +25,7 @@ class Map:
     def draw(self, screen, shift):
         for part in self.CloseLevelparts:
             part.draw(screen, shift)
+        self.door.draw(screen, shift)
 
     def getCloseLevelparts(self, camera, screenSize):
         self.CloseLevelparts = []
