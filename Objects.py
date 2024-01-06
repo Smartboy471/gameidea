@@ -9,7 +9,7 @@ class BackRoundPiece:
         screen.blit(self.surface, (self.pos[0]-shift[0], self.pos[1]-shift[1]))
 
 class door:
-    def __init__(self, pos: list, img: str):
+    def __init__(self, pos: list):
         self.pos = pos
         self.size = [32, 32] 
         self.surfaceClosed = pygame.image.load("data/img/Tiles_063.png")
