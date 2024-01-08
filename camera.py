@@ -1,31 +1,28 @@
-
+import vector2
 class camera:
     def __init__(self, pos, utils, map) -> None:
-        self.pos = pos
-        self.vel = [0, 0]
+        self.vec2 = vector2.Vec2(pos[0], pos[1])
         self.utilities = utils
-        self.topleftpos = [self.pos[0]-(self.utilities.screenSize[0]/2), self.pos[1]-(self.utilities.screenSize[1]/2)]
+        self.topleftpos = [self.vec2.pos[0]-(self.utilities.screenSize[0]/2), self.vec2.pos[1]-(self.utilities.screenSize[1]/2)]
         self.map = map
     def update(self, hostPos):
-        self.vel[0] = ((hostPos[0] - self.pos[0]) /10)
-        self.vel[1] = ((hostPos[1] - self.pos[1]) /10)  
-        self.pos[0] += self.vel[0]
-        self.pos[1] += self.vel[1]
+        self.vec2.vel = (vector2.Intdiv(vector2.Vec2sub(hostPos, self.vec2.pos), 10))
+        self.vec2.addVel()
 
         right = self.map.LevelPixelSize[0] - (self.utilities.screenSize[0]/2)
         left = self.utilities.screenSize[0]/2
         bottom = self.map.LevelPixelSize[1] - (self.utilities.screenSize[1]/2)
         top = self.utilities.screenSize[1]/2
 
-        if self.pos[0] <= left:
-            self.pos[0] = left
+        if self.vec2.pos[0] <= left:
+            self.vec2.pos[0] = left
 
-        elif self.pos[0] >= right:
-            self.pos[0] = right
+        elif self.vec2.pos[0] >= right:
+            self.vec2.pos[0] = right
 
 
-        if self.pos[1] <= top:
-            self.pos[1] = top
+        if self.vec2.pos[1] <= top:
+            self.vec2.pos[1] = top
         
-        elif self.pos[1] >= bottom:
-            self.pos[1] = bottom
+        elif self.vec2.pos[1] >= bottom:
+            self.vec2.pos[1] = bottom

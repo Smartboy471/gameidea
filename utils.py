@@ -10,7 +10,8 @@ class utils:
         self.screen = pygame.display.set_mode(self.screenSize, 0, 0, 0, 1)
         self.FPS = 144
         self.running = True
-
+        self.friction = .8
+        self.Keys = [[pygame.K_w, False]]
     def DeltaTime(self):
         self.deltaTime = self.get_ticks() - self.lastFrameTime
         self.lastFrameTime = self.get_ticks()

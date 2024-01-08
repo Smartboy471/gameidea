@@ -9,27 +9,39 @@ class Map:
         self.BackroundNames = [None, "data/img/floor.png", "data/img/wall.png"]
         self.JsonLevel = JH.JsonReader("data/level/level.json")["backround"]
         self.Level = []
+        self.movingLevel = []
         self.chunkSize = [64, 64]
         self.loadedChunks = []
         self.loadedChunksPos = [0, 0]
-        self.doors = [Objects.door((480, 480))]
+        self.doors = [Objects.door((32, 32), 2)]
+        self.cube = [Objects.MovingCube((100, 100), 2, 20)]
     
+    def addToLevel(self, posX, posY, layer: int, add):
+        if layer > 3 or layer < 0:
+            print("layer invalid", layer)
+            return 1
+        levelPos = [posX//self.chunkSize[0], posY//self.chunkSize[1]]
+        self.Level[levelPos[0]][levelPos[1]][layer].append(add)
+        return 0
+
+
     def setUpLevel(self, screenSize):
-        #self.BackroundLevel
-        #for y in range(0, self.BackroundLevelsize[0]):
-        #    self.BackroundLevel.append([])
-        #    for x in range(0, self.BackroundLevelsize[1]):
-        #        for i in range(0, 3):
-        #            if i == self.JsonLevel[y][x]:
-        #                if self.BackroundNames[i] != None:
-        #                    self.BackroundLevel[y].append(Objects.BackRoundPiece([x*self.BackroundLevelPartSize[0], y*self.BackroundLevelPartSize[1]], self.BackroundNames[i]))
-
-
         #Self.Level
         for y in range(0, int(self.LevelPixelSize[1]/self.chunkSize[1])):
             self.Level.append([])
             for x in range(0, int(self.LevelPixelSize[0]/self.chunkSize[0])):
-                self.Level[y].append([[[(self.JsonLevel[2*y][2*x]), (self.JsonLevel[2*y][2*x+1])], [(self.JsonLevel[2*y+1][2*x]), (self.JsonLevel[2*y+1][2*x+1])]]])
+                self.Level[y].append([
+                    [[[(self.JsonLevel[2*y][2*x]), (self.JsonLevel[2*y][2*x+1])], [(self.JsonLevel[2*y+1][2*x]), (self.JsonLevel[2*y+1][2*x+1])]]],       #Layer 0 Backround
+                    [],                                                                                                                                   #Layer 1
+                    [],                                                                                                                                   #Layer 2
+                    []                                                                                                                                   #Layer 3 Above player
+                    ])
+        #Adds doors
+        for door in self.doors:
+            self.addToLevel(door.vec2.pos[0], door.vec2.pos[1], door.layer, door)
+        for cube in self.cube:
+            self.movingLevel.append(cube)
+        
         #LoadedChunks
         left = 0
         right = int((screenSize[0] + (4*self.chunkSize[0])) / self.chunkSize[0])
@@ -43,42 +55,72 @@ class Map:
                 self.loadedChunks[chunkY].append(self.Level[y][x])
                 chunkX += 1
             chunkY +=1
-        for door in self.doors:
-            levelPos = [door.pos[0]//self.chunkSize[0], door.pos[1]//self.chunkSize[1]]
-            self.Level[levelPos[0]][levelPos[1]].append(door)
+        self.JsonLevel = []
         return 0
     
+
+        
+
+
     def draw(self, screen, shift:list):
         surfaceFloor = pygame.image.load(self.BackroundLevel[0])
         surfaceWall = pygame.image.load(self.BackroundLevel[1])
-        for y in range(0, len(self.loadedChunks)):
-            for x in range(0, len(self.loadedChunks[y])):
-                for part in self.loadedChunks[y][x]:
-                    if type(part) == list:
-                        for loadedY in range(0, len(part)):
-                            for loadedX in range(0, len(part[loadedY])):
-                                
-                                if type(part[loadedY][loadedX]) == int:
-                                    if part[loadedY][loadedX] == 0:
-                                        continue
-                                    if part[loadedY][loadedX] == 1:
-                                        pos = [self.loadedChunksPos[0]+((x)*self.chunkSize[0])+(loadedX*32)-shift[0], self.loadedChunksPos[1]+((y)*self.chunkSize[1])+(loadedY*32)-shift[1]]
-                                        if pos[0]<0:
-                                            pos[0]=0
-                                        if pos[1]<0:
-                                            pos[1]=0
-                                        screen.blit(surfaceFloor, pos)
-                        
-                                    if part[loadedY][loadedX] == 2:
-                                        pos = [self.loadedChunksPos[0]+((x)*self.chunkSize[0])+(loadedX*32)-shift[0], self.loadedChunksPos[1]+((y)*self.chunkSize[1])+(loadedY*32)-shift[1]]
-                                    
-                                        screen.blit(surfaceWall, pos)
-                    else:
-                        part.draw(screen, shift)
-        return 0
+        for layer in range(0, 3):
+            for y in range(0, len(self.loadedChunks)):
+                for x in range(0, len(self.loadedChunks[y])):
+                    for part in self.loadedChunks[y][x][layer]:
+                        if type(part) == list:
+                            for loadedY in range(0, len(part)):
+                                for loadedX in range(0, len(part[loadedY])):
 
+                                    if type(part[loadedY][loadedX]) == int:
+                                        pos = [self.loadedChunksPos[0]+((x)*self.chunkSize[0])+(loadedX*32)-shift[0], self.loadedChunksPos[1]+((y)*self.chunkSize[1])+(loadedY*32)-shift[1]]
+
+                                        match part[loadedY][loadedX]:
+                                             
+                                            case 0:
+                                                continue
+                                            case 1:
+                                                screen.blit(surfaceFloor, pos)
+
+                                            case 2:
+                                                screen.blit(surfaceWall, pos)
+                        else:
+                            part.draw(screen, shift)
+        for part in self.movingLevel:
+            part.draw(screen, shift)
+        return 0
+    def drawAbovePlayer(self, screen, shift:list):
+        surfaceFloor = pygame.image.load(self.BackroundLevel[0])
+        surfaceWall = pygame.image.load(self.BackroundLevel[1])
+        for layer in range(3, 4):
+            for y in range(0, len(self.loadedChunks)):
+                for x in range(0, len(self.loadedChunks[y])):
+                    for part in self.loadedChunks[y][x][layer]:
+                        if type(part) == list:
+                            for loadedY in range(0, len(part)):
+                                for loadedX in range(0, len(part[loadedY])):
+
+                                    if type(part[loadedY][loadedX]) == int:
+                                        if part[loadedY][loadedX] == 0:
+                                            continue
+                                        if part[loadedY][loadedX] == 1:
+                                            pos = [self.loadedChunksPos[0]+((x)*self.chunkSize[0])+(loadedX*32)-shift[0], self.loadedChunksPos[1]+((y)*self.chunkSize[1])+(loadedY*32)-shift[1]]
+                                            if pos[0]<0:
+                                                pos[0]=0
+                                            if pos[1]<0:
+                                                pos[1]=0
+                                            screen.blit(surfaceFloor, pos)
+
+                                        if part[loadedY][loadedX] == 2:
+                                            pos = [self.loadedChunksPos[0]+((x)*self.chunkSize[0])+(loadedX*32)-shift[0], self.loadedChunksPos[1]+((y)*self.chunkSize[1])+(loadedY*32)-shift[1]]
+
+                                            screen.blit(surfaceWall, pos)
+                        else:
+                            part.draw(screen, shift)
+        return 0
     def getCloseLevelparts(self, camera, screenSize):
-        cameraPos = [(camera.pos[0] - (screenSize[0] / 2)), (camera.pos[1] - (screenSize[1] / 2))]
+        cameraPos = [(camera.vec2.pos[0] - (screenSize[0] / 2)), (camera.vec2.pos[1] - (screenSize[1] / 2))]
 
         left = int((cameraPos[0] - 1*self.chunkSize[0]) // self.chunkSize[0])
         right = int((screenSize[0] + (2*self.chunkSize[0]) + cameraPos[0]) // self.chunkSize[0])
