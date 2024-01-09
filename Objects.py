@@ -29,6 +29,7 @@ class MovingCube:
         self.surface = pygame.image.load("data/img/black.png")
         self.rect = pygame.Rect(self.vec2.pos, self.size)
         self.weight = weight
+        self.hit = False
     def update(self, deltaTime, friction):
         self.vec2.vel = vector2.Intmul(self.vec2.vel, friction)
         self.vec2.addVelwithDeltaTime(deltaTime)

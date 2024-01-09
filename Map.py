@@ -14,7 +14,7 @@ class Map:
         self.loadedChunks = []
         self.loadedChunksPos = [0, 0]
         self.doors = [Objects.door((32, 32), 2)]
-        self.cube = [Objects.MovingCube((100, 100), 2, 10)]
+        self.cube = [Objects.MovingCube((100, 100), 2, 1)]
     
     def addToLevel(self, posX, posY, layer: int, add):
         if layer > 3 or layer < 0:
@@ -129,12 +129,9 @@ class Map:
         for y in range(top, bottom):
             chunkX = 0
             for x in range(left, right):
-                try:
+                if not y > len(self.Level) or not x > len(self.Level[y]):
                     if self.loadedChunks[chunkY][chunkX] != self.Level[y][x]:
                         self.loadedChunks[chunkY][chunkX] = self.Level[y][x]
-                except:
-                    IndexError
-                    print(x, y)
                 chunkX += 1
             chunkY +=1
         return 0

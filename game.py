@@ -50,6 +50,7 @@ class game:
         for cube in self.map.cube:
             cube.update(self.utilities.deltaTime, self.utilities.friction)
         pygame.display.update()
+        self.utilities.DeltaTime()
         
 
         
@@ -61,7 +62,6 @@ class game:
         self.map.drawAbovePlayer(self.utilities.screen, shift)
     def FinishCalculations(self):
         pygame.time.Clock().tick(self.utilities.FPS)
-        self.utilities.DeltaTime()
 
     def Exit(self):
         pygame.quit()

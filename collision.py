@@ -28,13 +28,22 @@ def cubePlayerCollision(player, cube):
     
     if rectCollision(player.vec2.pos[0], player.vec2.pos[1], player.size[0], player.size[1], cube.vec2.pos[0], cube.vec2.pos[1], cube.size[0], cube.size[1]):
         if playerPushingcubeleft or playerPushingcuberight or cubePushingplayerright or cubePushingplayerleft:
-            vandm = (player.vec2.vel[0] * player.weight) - (cube.vec2.vel[0] * cube.weight)
-            m = player.weight + cube.weight
-            cube.vec2.vel[0] = vandm / m
-            player.vec2.vel[0] = vandm / m
-        
+            if cube.hit == False:
+                vandm = (player.vec2.vel[0] * player.weight) - (cube.vec2.vel[0] * cube.weight)
+                m = player.weight + cube.weight
+                cube.vec2.vel[0] = vandm / m
+                player.vec2.vel[0] = vandm / m
+                cube.hit = True
+            else:
+                cube.vec2.vel[0] = player.vec2.vel[0]
         if playerPushingcubeup or playerPushingcubedown or cubePushingplayerdown or cubePushingplayerup:
-            vandm = (player.vec2.vel[1] * player.weight) - (cube.vec2.vel[1] * cube.weight)
-            m = player.weight + cube.weight
-            cube.vec2.vel[1] = vandm / m
-            player.vec2.vel[1] = vandm / m
+            if cube.hit == False:
+                vandm = (player.vec2.vel[1] * player.weight) - (cube.vec2.vel[1] * cube.weight)
+                m = player.weight + cube.weight
+                cube.vec2.vel[1] = vandm / m
+                player.vec2.vel[1] = vandm / m
+                cube.hit = True
+            else:
+                cube.vec2.vel[1] = player.vec2.vel[1]
+    else:
+        cube.hit = False
