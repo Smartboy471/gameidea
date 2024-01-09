@@ -11,13 +11,12 @@ class player:
 
         self.map = map
         self.utilities = utils
-        self.weight = 10
+        self.weight = 1000000000
         self.camera = camera.camera([0, 0], self.utilities, self.map)
     def draw(self, screen, shift):
         self.Drawrect = pygame.Rect([self.vec2.pos[0] - shift[0], self.vec2.pos[1] - shift[1]], self.size)
         screen.blit(self.surface, self.Drawrect)
-    def update(self):
+    def update(self, friction):
+        self.vec2.vel = vector2.Intmul(self.vec2.vel, friction)
         self.vec2.addVelwithDeltaTime(self.utilities.deltaTime)
-        self.rect.x = self.vec2.pos[0]
-        self.rect.y = self.vec2.pos[1]
         self.camera.update(vector2.Vec2add(self.vec2.pos, vector2.Intdiv(self.size, 2)))

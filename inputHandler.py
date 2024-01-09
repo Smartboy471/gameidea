@@ -34,31 +34,35 @@ class InputHandler:
         #    case pygame.K_d:
         #        if self.player.vec2.vel[0] > 0.01:
         #            self.player.vec2.vel[0] = 0
+
     def KeyboardHandler(self):
         for key in self.utils.Keys:
-            match key[0]:
-                case pygame.K_w:
-                    if key[1] == True:
-                        
-                        self.player.vec2.vel[1] = -5/self.deltaTimeEstimate
-                    else:
-                        if self.player.vec2.vel[1] < 0:
-                            self.player.vec2.vel[1] = 0
-                case pygame.K_s:
-                    if key[1] == True:
-                        self.player.vec2.vel[1] = 5/self.deltaTimeEstimate
-                    else:
-                        if self.player.vec2.vel[1] > 0:
-                            self.player.vec2.vel[1] = 0
-                case pygame.K_a:
-                    if key[1] == True:
-                        self.player.vec2.vel[0] = -5/self.deltaTimeEstimate
-                    else:
-                        if self.player.vec2.vel[0] < 0:
-                            self.player.vec2.vel[0] = 0
-                case pygame.K_d:
-                    if key[1] == True:
-                        self.player.vec2.vel[0] = 5/self.deltaTimeEstimate
-                    else:
-                        if self.player.vec2.vel[0] > 0:
-                            self.player.vec2.vel[0] = 0
+            if key[0] ==  pygame.K_w:
+                if key[1] == True:
+                    
+                    self.player.vec2.vel[1] = -5/self.deltaTimeEstimate
+                else:
+                    if self.player.vec2.vel[1] < 0:
+                        self.player.vec2.vel[1] = 0
+                
+            if key[0] == pygame.K_s:
+                if key[1] == True:
+                    self.player.vec2.vel[1] = 5/self.deltaTimeEstimate
+                else:
+                    if self.player.vec2.vel[1] > 0:
+                        self.player.vec2.vel[1] = 0
+                
+            if key[0] == pygame.K_a:
+                if key[1] == True:
+                    self.player.vec2.vel[0] = -5/self.deltaTimeEstimate
+                else:
+                    if self.player.vec2.vel[0] < 0:
+                        self.player.vec2.vel[0] = 0
+                
+            if key[0] == pygame.K_d:
+                if key[1] == True:
+                    self.player.vec2.vel[0] = 5/self.deltaTimeEstimate
+                else:
+                    if self.player.vec2.vel[0] > 0:
+                        self.player.vec2.vel[0] = 0
+                

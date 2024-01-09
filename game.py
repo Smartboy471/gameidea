@@ -41,18 +41,11 @@ class game:
         self.InputHandler.KeyboardHandler()
                 
         for cube in self.map.cube:
-            if collision.rectCollision(self.player.vec2.pos[0], self.player.vec2.pos[1], self.player.size[0], self.player.size[1], cube.vec2.pos[0], cube.vec2.pos[1], cube.size[0], cube.size[1]):
-                velratioToSub = cube.weight/self.player.weight
-                velratioToAdd = (velratioToSub/cube.weight)
-                cube.vec2.addToVel(vector2.Intmul(self.player.vec2.vel, velratioToAdd))
-                self.player.vec2.subToVel((vector2.Intmul(self.player.vec2.vel, velratioToSub)))
-                #cube.vec2.addToVel(self.player.vec2.vel)
-                #self.player.vec2.subToVel((vector2.Intmul(self.player.vec2.vel, .02)))
-        return 0
+            collision.cubePlayerCollision(self.player, cube)
 
-
+            
     def Update(self):
-        self.player.update()
+        self.player.update(self.utilities.friction)
         self.map.getCloseLevelparts(self.player.camera, self.utilities.screenSize)
         for cube in self.map.cube:
             cube.update(self.utilities.deltaTime, self.utilities.friction)

@@ -75,16 +75,14 @@ class Map:
 
                                     if type(part[loadedY][loadedX]) == int:
                                         pos = [self.loadedChunksPos[0]+((x)*self.chunkSize[0])+(loadedX*32)-shift[0], self.loadedChunksPos[1]+((y)*self.chunkSize[1])+(loadedY*32)-shift[1]]
-
-                                        match part[loadedY][loadedX]:
                                              
-                                            case 0:
-                                                continue
-                                            case 1:
-                                                screen.blit(surfaceFloor, pos)
+                                        if part[loadedY][loadedX] == 0:
+                                            continue
+                                        if part[loadedY][loadedX] == 1:
+                                            screen.blit(surfaceFloor, pos)
 
-                                            case 2:
-                                                screen.blit(surfaceWall, pos)
+                                        if part[loadedY][loadedX] == 2:
+                                            screen.blit(surfaceWall, pos)
                         else:
                             part.draw(screen, shift)
         for part in self.movingLevel:
