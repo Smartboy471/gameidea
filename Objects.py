@@ -31,7 +31,8 @@ class MovingCube:
         self.weight = weight
         self.hit = False
     def update(self, deltaTime, friction):
-        self.vec2.vel = vector2.Intmul(self.vec2.vel, friction)
+        if self.hit != True:
+            self.vec2.vel = vector2.Intmul(self.vec2.vel, friction)
         self.vec2.addVelwithDeltaTime(deltaTime)
     def draw(self, screen, shift):
         self.rect.x = self.vec2.pos[0]-shift[0]

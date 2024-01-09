@@ -129,9 +129,11 @@ class Map:
         for y in range(top, bottom):
             chunkX = 0
             for x in range(left, right):
-                if not y > len(self.Level) or not x > len(self.Level[y]):
+                try:
                     if self.loadedChunks[chunkY][chunkX] != self.Level[y][x]:
                         self.loadedChunks[chunkY][chunkX] = self.Level[y][x]
+                except:
+                    IndexError
                 chunkX += 1
             chunkY +=1
         return 0
