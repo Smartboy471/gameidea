@@ -14,17 +14,17 @@ def cubePlayerCollision(player, cube):
     rightOfCube = cube.vec2.pos[0] + cube.size[0]
     bottomOfCube = cube.vec2.pos[1] + cube.size[1]
 
-    playerPushingcuberight = rightOfPlayer < cube.vec2.pos[0]+(cube.size[0]/2) and player.vec2.vel[0] > 0
-    playerPushingcubeleft = player.vec2.pos[0] > cube.vec2.pos[0]+(cube.size[0]/2) and player.vec2.vel[0] < 0
-    playerPushingcubedown = bottomOfPlayer < cube.vec2.pos[1]+(cube.size[1]/2) and player.vec2.vel[1] > 0
-    playerPushingcubeup = player.vec2.pos[1] > cube.vec2.pos[1]+(cube.size[1]/2) and player.vec2.vel[1] < 0
+    playerPushingcuberight = rightOfPlayer < cube.vec2.pos[0]+(cube.size[0]/2) and player.vec2.vel[0] > cube.vec2.vel[0]
+    playerPushingcubeleft = player.vec2.pos[0] > cube.vec2.pos[0]+(cube.size[0]/2) and player.vec2.vel[0] < cube.vec2.vel[0]
+    playerPushingcubedown = bottomOfPlayer < cube.vec2.pos[1]+(cube.size[1]/2) and player.vec2.vel[1] > cube.vec2.vel[1]
+    playerPushingcubeup = player.vec2.pos[1] > cube.vec2.pos[1]+(cube.size[1]/2) and player.vec2.vel[1] < cube.vec2.vel[1]
     
     
     
-    cubePushingplayerright = rightOfCube < player.vec2.pos[0]+(player.size[0]/2) and cube.vec2.vel[0] > 0
-    cubePushingplayerleft = cube.vec2.pos[0] > player.vec2.pos[0]+(player.size[0]/2) and cube.vec2.vel[0] < 0
-    cubePushingplayerup = cube.vec2.pos[1] > player.vec2.pos[1]+(player.size[1]/2) and cube.vec2.vel[1] < 0
-    cubePushingplayerdown = bottomOfCube < player.vec2.pos[1]+(player.size[1]/2) and cube.vec2.vel[1] > 0
+    cubePushingplayerright = rightOfCube < player.vec2.pos[0]+(player.size[0]/2) and cube.vec2.vel[0] > player.vec2.vel[0]
+    cubePushingplayerleft = cube.vec2.pos[0] > player.vec2.pos[0]+(player.size[0]/2) and cube.vec2.vel[0] < player.vec2.vel[0]
+    cubePushingplayerup = cube.vec2.pos[1] > player.vec2.pos[1]+(player.size[1]/2) and cube.vec2.vel[1] < player.vec2.vel[1]
+    cubePushingplayerdown = bottomOfCube < player.vec2.pos[1]+(player.size[1]/2) and cube.vec2.vel[1] > player.vec2.vel[1]
     
     if rectCollision(player.vec2.pos[0], player.vec2.pos[1], player.size[0], player.size[1], cube.vec2.pos[0], cube.vec2.pos[1], cube.size[0], cube.size[1]):
         if playerPushingcubeleft or playerPushingcuberight or cubePushingplayerright or cubePushingplayerleft:

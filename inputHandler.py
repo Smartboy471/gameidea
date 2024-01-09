@@ -5,6 +5,7 @@ class InputHandler:
         self.player = player
         self.deltaTimeEstimate = 16
         self.utils = utils
+        self.notrunningFriction = 0.3
     def DOWNKeyboardHandler(self, event):
         return 0
         #match event.key:
@@ -39,30 +40,41 @@ class InputHandler:
         for key in self.utils.Keys:
             if key[0] ==  pygame.K_w:
                 if key[1] == True:
-                    
-                    self.player.vec2.vel[1] = -5/self.deltaTimeEstimate
+                    if self.player.vec2.vel[1] >= -5/self.deltaTimeEstimate:
+                        self.player.vec2.vel[1] = self.player.vec2.vel[1] - ((self.player.accel/self.player.weight)/self.deltaTimeEstimate)
+                    else:
+                        self.player.vec2.vel[1] = -5/self.deltaTimeEstimate
                 else:
                     if self.player.vec2.vel[1] < 0:
-                        self.player.vec2.vel[1] = 0
+                        self.player.vec2.vel[1] *= self.notrunningFriction
                 
             if key[0] == pygame.K_s:
                 if key[1] == True:
-                    self.player.vec2.vel[1] = 5/self.deltaTimeEstimate
+                    if self.player.vec2.vel[1] <= 5/self.deltaTimeEstimate:
+                        self.player.vec2.vel[1] = self.player.vec2.vel[1] + ((self.player.accel/self.player.weight)/self.deltaTimeEstimate)
+                    else:
+                        self.player.vec2.vel[1] = 5/self.deltaTimeEstimate
                 else:
                     if self.player.vec2.vel[1] > 0:
-                        self.player.vec2.vel[1] = 0
+                        self.player.vec2.vel[1] *= self.notrunningFriction
                 
             if key[0] == pygame.K_a:
                 if key[1] == True:
-                    self.player.vec2.vel[0] = -5/self.deltaTimeEstimate
+                    if self.player.vec2.vel[0] >= -5/self.deltaTimeEstimate:
+                        self.player.vec2.vel[0] = self.player.vec2.vel[0] - ((self.player.accel/self.deltaTimeEstimate)/self.player.weight)
+                    else:
+                        self.player.vec2.vel[0] = -5/self.deltaTimeEstimate
                 else:
                     if self.player.vec2.vel[0] < 0:
-                        self.player.vec2.vel[0] = 0
+                        self.player.vec2.vel[0] *= self.notrunningFriction
                 
             if key[0] == pygame.K_d:
                 if key[1] == True:
-                    self.player.vec2.vel[0] = 5/self.deltaTimeEstimate
+                    if self.player.vec2.vel[0] <= 5/self.deltaTimeEstimate:
+                        self.player.vec2.vel[0] = self.player.vec2.vel[0] + ((self.player.accel/self.player.weight)/self.deltaTimeEstimate)
+                    else:
+                        self.player.vec2.vel[0] = 5/self.deltaTimeEstimate
                 else:
                     if self.player.vec2.vel[0] > 0:
-                        self.player.vec2.vel[0] = 0
+                        self.player.vec2.vel[0] *= self.notrunningFriction
                 

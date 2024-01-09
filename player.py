@@ -8,10 +8,10 @@ class player:
         self.surface = pygame.image.load("data/img/player.png")
         self.rect = pygame.Rect(self.vec2.pos, self.size)
         self.Drawrect = pygame.Rect(self.vec2.pos, self.size)
-
+        self.accel = 5
         self.map = map
         self.utilities = utils
-        self.weight = 1000000000
+        self.weight = 10
         self.camera = camera.camera([0, 0], self.utilities, self.map)
     def draw(self, screen, shift):
         self.Drawrect = pygame.Rect([self.vec2.pos[0] - shift[0], self.vec2.pos[1] - shift[1]], self.size)
